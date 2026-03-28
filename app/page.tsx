@@ -259,7 +259,7 @@ export default function HomePage() {
                   "Powered-by attribution to GoWagr",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm text-[#999]">
-                    <span className="mt-0.5 text-[#1369F1]">→</span>
+                    <span className="mt-[5px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#1369F1]" />
                     {item}
                   </li>
                 ))}

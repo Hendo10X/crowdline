@@ -174,11 +174,11 @@ export function InlineWidget({ event, market, theme = "dark", compact = false }:
           href="https://gowagr.com"
           target="_blank"
           rel="noopener noreferrer"
-          className={`font-mono text-[10px] transition-opacity hover:opacity-100 ${isDark ? "text-[#333] hover:text-[#555]" : "text-[#ccc] hover:text-[#999]"}`}
+          className="font-mono text-[10px] text-[#A1A1A1] transition-colors hover:text-[#f0ede6]"
         >
           via GoWagr · Bayse Markets
         </a>
-        <span className={`font-mono text-[10px] ${isDark ? "text-[#2a2a2a]" : "text-[#e5e5e5]"}`}>
+        <span className="font-mono text-[10px] text-[#A1A1A1]">
           Crowdline
         </span>
       </div>

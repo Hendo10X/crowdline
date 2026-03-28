@@ -104,11 +104,11 @@ function MarketCard({
           </span>
         </div>
 
-        <div className="ml-auto flex items-center gap-3 text-[#777]">
+        <div className="ml-auto flex items-center gap-3 text-[#A1A1A1]">
           <span className="font-mono text-[11px]">{formatTraders(market.traderCount ?? 0)} traders</span>
           {market.volume !== undefined && (
             <>
-              <span className="text-[#2a2a2a]">·</span>
+              <span className="text-[#444]">·</span>
               <span className="font-mono text-[11px]">{formatVolume(market.volume)}</span>
             </>
           )}
@@ -176,7 +176,7 @@ function EmbedPanel({ event, onClose }: { event: BayseEvent; onClose: () => void
               className={`rounded-lg border px-4 py-2 font-mono text-xs capitalize transition-all ${
                 theme === t
                   ? "border-[#1369F1] bg-[#1369F1]/10 text-[#1369F1]"
-                  : "border-[#333] bg-transparent text-[#888] hover:border-[#555] hover:text-[#ccc]"
+                  : "border-[#333] bg-transparent text-[#A1A1A1] hover:border-[#555] hover:text-[#ccc]"
               }`}
             >
               {t}
@@ -201,7 +201,7 @@ function EmbedPanel({ event, onClose }: { event: BayseEvent; onClose: () => void
           </button>
         </div>
         <div className="rounded-lg border border-[#1e1e1e] bg-[#080808] p-3">
-          <pre className="overflow-x-auto font-mono text-[11px] leading-relaxed text-[#666] whitespace-pre-wrap break-all">
+          <pre className="overflow-x-auto font-mono text-[11px] leading-relaxed text-[#A1A1A1] whitespace-pre-wrap break-all">
             {scriptCode}
           </pre>
         </div>
@@ -221,7 +221,7 @@ function EmbedPanel({ event, onClose }: { event: BayseEvent; onClose: () => void
           </button>
         </div>
         <div className="rounded-lg border border-[#1e1e1e] bg-[#080808] p-3">
-          <pre className="overflow-x-auto font-mono text-[11px] leading-relaxed text-[#666] whitespace-pre-wrap break-all">
+          <pre className="overflow-x-auto font-mono text-[11px] leading-relaxed text-[#A1A1A1] whitespace-pre-wrap break-all">
             {iframeCode}
           </pre>
         </div>
