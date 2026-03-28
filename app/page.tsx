@@ -1,9 +1,10 @@
 "use client"
 
 import Link from "next/link"
+import { useState } from "react"
 import { Globe } from "@/components/globe"
 import { MOCK_EVENTS } from "@/lib/bayse"
-import { Landmark, Trophy, TrendingUp, Briefcase, Building2 } from "lucide-react"
+import { Landmark, Trophy, TrendingUp, Briefcase, Building2, Menu, X } from "lucide-react"
 
 const STEPS = [
   {
@@ -32,6 +33,8 @@ const CATEGORIES = [
 ]
 
 export default function HomePage() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-[#101010] text-[#f0ede6]">
       {/* Nav */}
@@ -39,32 +42,85 @@ export default function HomePage() {
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
           <div className="flex items-center gap-2">
             <span className="font-mono text-sm font-semibold tracking-widest text-[#f0ede6]">CROWDLINE</span>
-            <span className="rounded border border-[#2a2a2a] px-1.5 py-0.5 font-mono text-[9px] text-[#444] uppercase tracking-widest">
+            <span className="rounded border border-[#444] px-1.5 py-0.5 font-mono text-[9px] text-[#888] uppercase tracking-widest">
               Beta
             </span>
           </div>
-          <div className="flex items-center gap-6">
-            <Link
-              href="#how-it-works"
-              className="font-mono text-xs text-[#555] uppercase tracking-widest transition-colors hover:text-[#f0ede6]"
-            >
+
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-6">
+            <Link href="#how-it-works" className="font-mono text-xs text-[#888] uppercase tracking-widest transition-colors hover:text-[#f0ede6]">
               About us
             </Link>
-            <Link
-              href="/dashboard"
-              className="font-mono text-xs text-[#555] uppercase tracking-widest transition-colors hover:text-[#f0ede6]"
-            >
+            <Link href="/dashboard" className="font-mono text-xs text-[#888] uppercase tracking-widest transition-colors hover:text-[#f0ede6]">
               Dashboard
             </Link>
-            <Link
-              href="/dashboard"
-              className="inline-flex h-8 items-center rounded-full bg-[#1369F1] px-4 font-mono text-xs font-semibold text-white hover:bg-[#0f57d4] uppercase tracking-wider transition-colors"
-            >
+            <Link href="/dashboard" className="inline-flex h-8 items-center rounded-full bg-[#1369F1] px-4 font-mono text-xs font-semibold text-white hover:bg-[#0f57d4] uppercase tracking-wider transition-colors">
               Get started
             </Link>
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="flex md:hidden h-8 w-8 items-center justify-center rounded-md text-[#999] hover:text-[#f0ede6] transition-colors"
+            aria-label="Open menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
         </div>
       </nav>
+
+      {/* Mobile sidebar overlay */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-[60] md:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setMenuOpen(false)}
+          />
+          {/* Drawer */}
+          <div className="absolute right-0 top-0 h-full w-72 bg-[#111] border-l border-[#1a1a1a] flex flex-col">
+            {/* Drawer header */}
+            <div className="flex h-14 items-center justify-between border-b border-[#1a1a1a] px-6">
+              <span className="font-mono text-sm font-semibold tracking-widest text-[#f0ede6]">CROWDLINE</span>
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="h-8 w-8 flex items-center justify-center rounded-md text-[#555] hover:text-[#f0ede6] transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            {/* Drawer links */}
+            <nav className="flex flex-col gap-1 p-4 flex-1">
+              <Link
+                href="#how-it-works"
+                onClick={() => setMenuOpen(false)}
+                className="flex h-11 items-center rounded-lg px-4 font-mono text-xs text-[#999] uppercase tracking-widest hover:bg-[#1a1a1a] hover:text-[#f0ede6] transition-colors"
+              >
+                About us
+              </Link>
+              <Link
+                href="/dashboard"
+                onClick={() => setMenuOpen(false)}
+                className="flex h-11 items-center rounded-lg px-4 font-mono text-xs text-[#999] uppercase tracking-widest hover:bg-[#1a1a1a] hover:text-[#f0ede6] transition-colors"
+              >
+                Dashboard
+              </Link>
+            </nav>
+            {/* CTA at bottom */}
+            <div className="border-t border-[#1a1a1a] p-4">
+              <Link
+                href="/dashboard"
+                onClick={() => setMenuOpen(false)}
+                className="flex h-10 w-full items-center justify-center rounded-full bg-[#1369F1] font-mono text-xs font-semibold text-white hover:bg-[#0f57d4] uppercase tracking-wider transition-colors"
+              >
+                Get started
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hero */}
       <section className="relative min-h-screen overflow-hidden px-6 pt-14">
@@ -75,7 +131,7 @@ export default function HomePage() {
             {/* Badge */}
             <div className="mb-8 inline-flex w-fit mx-auto items-center gap-2 rounded-full border border-[#1e1e1e] bg-[#161616] px-3 py-1 md:mx-0">
               <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#22c55e] animate-pulse" />
-              <span className="font-mono text-[10px] text-[#555] tracking-wider uppercase">Live market data</span>
+              <span className="font-mono text-[10px] text-[#999] tracking-wider uppercase">Live market data</span>
             </div>
 
             <h1
@@ -87,7 +143,7 @@ export default function HomePage() {
               <span className="text-[#1369F1]">Embedded.</span>
             </h1>
 
-            <p className="mb-10 mx-auto max-w-sm text-sm leading-relaxed text-[#555] md:mx-0 md:max-w-md md:text-base">
+            <p className="mb-10 mx-auto max-w-sm text-sm leading-relaxed text-[#888] md:mx-0 md:max-w-md md:text-base">
               Drop one line of code. Your readers see what{" "}
               <span className="text-[#999]">thousands of people are betting on</span>
               , right next to the story they&apos;re already reading.
@@ -102,7 +158,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="#how-it-works"
-                className="inline-flex h-10 w-full items-center justify-center rounded-full border border-[#2a2a2a] bg-transparent px-6 font-mono text-xs text-[#555] hover:border-[#3a3a3a] hover:bg-[#161616] hover:text-[#f0ede6] uppercase tracking-wider transition-colors sm:w-auto"
+                className="inline-flex h-10 w-full items-center justify-center rounded-full border border-[#444] bg-transparent px-6 font-mono text-xs text-[#aaa] hover:border-[#666] hover:bg-[#161616] hover:text-[#f0ede6] uppercase tracking-wider transition-colors sm:w-auto"
               >
                 How it works
               </Link>
@@ -125,8 +181,8 @@ export default function HomePage() {
           {[...MOCK_EVENTS, ...MOCK_EVENTS].map((e, i) => {
             const pct = Math.round((e.markets[0].outcomes[0].price ?? 0.5) * 100)
             return (
-              <span key={i} className="inline-flex items-center gap-3 font-mono text-xs text-[#444]">
-                <span className="text-[#666]">{e.title}</span>
+              <span key={i} className="inline-flex items-center gap-3 font-mono text-xs text-[#777]">
+                <span className="text-[#999]">{e.title}</span>
                 <span className={pct >= 50 ? "text-[#22c55e]" : "text-[#ef4444]"}>{pct}%</span>
                 <span className="text-[#2a2a2a]">·</span>
               </span>
@@ -170,7 +226,7 @@ export default function HomePage() {
               >
                 {step.title}
               </h3>
-              <p className="text-sm leading-relaxed text-[#555]">{step.body}</p>
+              <p className="text-sm leading-relaxed text-[#888]">{step.body}</p>
             </div>
           ))}
         </div>
@@ -190,7 +246,7 @@ export default function HomePage() {
                 <br />
                 more than pundits.
               </h2>
-              <p className="mb-8 text-sm leading-relaxed text-[#555]">
+              <p className="mb-8 text-sm leading-relaxed text-[#888]">
                 When TechCabal covers the 2027 election, Crowdline puts a live probability right inside the
                 article. Not a Twitter poll. Not an expert quote. Thousands of people with skin in the game.
               </p>
@@ -202,7 +258,7 @@ export default function HomePage() {
                   "Custom colour and size options",
                   "Powered-by attribution to GoWagr",
                 ].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm text-[#666]">
+                  <li key={item} className="flex items-start gap-3 text-sm text-[#999]">
                     <span className="mt-0.5 text-[#1369F1]">→</span>
                     {item}
                   </li>
@@ -260,7 +316,7 @@ export default function HomePage() {
             <Link
               key={label}
               href={`/dashboard?category=${label.toLowerCase()}`}
-              className="group inline-flex items-center gap-2 rounded-full border border-[#1e1e1e] bg-[#0d0d0d] px-5 py-2.5 font-mono text-sm text-[#555] transition-all hover:border-[#1369F1]/30 hover:bg-[#1369F1]/5 hover:text-[#1369F1]"
+              className="group inline-flex items-center justify-center gap-2 rounded-full border border-[#333] bg-[#0d0d0d] px-5 py-2.5 font-mono text-sm text-[#999] transition-all hover:border-[#1369F1]/40 hover:bg-[#1369F1]/5 hover:text-[#1369F1]"
             >
               {label}
               <Icon
@@ -284,7 +340,7 @@ export default function HomePage() {
             <br />
             <span className="text-[#1369F1]">free, forever.</span>
           </h2>
-          <p className="mx-auto mb-10 max-w-md text-sm text-[#555] leading-relaxed">
+          <p className="mx-auto mb-10 max-w-md text-sm text-[#888] leading-relaxed">
             Browse live markets, copy the embed code, and drop it into your CMS. No account needed to preview.
           </p>
           <Link
@@ -299,10 +355,10 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="border-t border-[#1a1a1a] px-6 py-8">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <span className="font-mono text-xs font-semibold tracking-widest text-[#333] uppercase">Crowdline</span>
+          <span className="font-mono text-xs font-semibold tracking-widest text-[#888] uppercase">Crowdline</span>
           <div className="flex items-center gap-6">
-            <span className="font-mono text-[11px] text-[#333]">Powered by</span>
-            <span className="font-mono text-[11px] font-semibold text-[#555]">Bayse Markets</span>
+            <span className="font-mono text-[11px] text-[#666]">Powered by</span>
+            <span className="font-mono text-[11px] font-semibold text-[#999]">Bayse Markets</span>
           </div>
         </div>
       </footer>

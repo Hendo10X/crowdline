@@ -5,11 +5,21 @@ import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import { InlineWidget } from "@/components/widget/inline-widget"
 import type { BayseEvent } from "@/lib/bayse"
 import { MOCK_EVENTS } from "@/lib/bayse"
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener("resize", check)
+    return () => window.removeEventListener("resize", check)
+  }, [])
+  return isMobile
+}
 
 const CATEGORIES = ["All", "Politics", "Sports", "Economy", "Business", "Infrastructure"]
 
@@ -94,7 +104,7 @@ function MarketCard({
           </span>
         </div>
 
-        <div className="ml-auto flex items-center gap-3 text-[#444]">
+        <div className="ml-auto flex items-center gap-3 text-[#777]">
           <span className="font-mono text-[11px]">{formatTraders(market.traderCount ?? 0)} traders</span>
           {market.volume !== undefined && (
             <>
@@ -151,13 +161,13 @@ function EmbedPanel({ event, onClose }: { event: BayseEvent; onClose: () => void
 
       {/* Live preview */}
       <div className="mb-6">
-        <p className="mb-3 font-mono text-[10px] text-[#444] uppercase tracking-widest">Preview</p>
+        <p className="mb-3 font-mono text-[10px] text-[#777] uppercase tracking-widest">Preview</p>
         <InlineWidget event={event} market={market} theme={theme} />
       </div>
 
       {/* Theme toggle */}
       <div className="mb-6">
-        <p className="mb-3 font-mono text-[10px] text-[#444] uppercase tracking-widest">Theme</p>
+        <p className="mb-3 font-mono text-[10px] text-[#777] uppercase tracking-widest">Theme</p>
         <div className="flex gap-2">
           {(["dark", "light"] as const).map((t) => (
             <button
@@ -166,7 +176,7 @@ function EmbedPanel({ event, onClose }: { event: BayseEvent; onClose: () => void
               className={`rounded-lg border px-4 py-2 font-mono text-xs capitalize transition-all ${
                 theme === t
                   ? "border-[#1369F1] bg-[#1369F1]/10 text-[#1369F1]"
-                  : "border-[#1e1e1e] bg-transparent text-[#555] hover:border-[#2a2a2a] hover:text-[#888]"
+                  : "border-[#333] bg-transparent text-[#888] hover:border-[#555] hover:text-[#ccc]"
               }`}
             >
               {t}
@@ -180,11 +190,11 @@ function EmbedPanel({ event, onClose }: { event: BayseEvent; onClose: () => void
       {/* Script tag */}
       <div className="mb-4">
         <div className="mb-2 flex items-center justify-between">
-          <p className="font-mono text-[10px] text-[#444] uppercase tracking-widest">Script tag</p>
+          <p className="font-mono text-[10px] text-[#777] uppercase tracking-widest">Script tag</p>
           <button
             onClick={() => copy("script")}
             className={`font-mono text-[10px] uppercase tracking-wider transition-colors ${
-              copied === "script" ? "text-[#22c55e]" : "text-[#555] hover:text-[#1369F1]"
+              copied === "script" ? "text-[#22c55e]" : "text-[#888] hover:text-[#1369F1]"
             }`}
           >
             {copied === "script" ? "Copied!" : "Copy"}
@@ -200,11 +210,11 @@ function EmbedPanel({ event, onClose }: { event: BayseEvent; onClose: () => void
       {/* Iframe */}
       <div className="mb-6">
         <div className="mb-2 flex items-center justify-between">
-          <p className="font-mono text-[10px] text-[#444] uppercase tracking-widest">Iframe</p>
+          <p className="font-mono text-[10px] text-[#777] uppercase tracking-widest">Iframe</p>
           <button
             onClick={() => copy("iframe")}
             className={`font-mono text-[10px] uppercase tracking-wider transition-colors ${
-              copied === "iframe" ? "text-[#22c55e]" : "text-[#555] hover:text-[#1369F1]"
+              copied === "iframe" ? "text-[#22c55e]" : "text-[#888] hover:text-[#1369F1]"
             }`}
           >
             {copied === "iframe" ? "Copied!" : "Copy"}
@@ -222,7 +232,7 @@ function EmbedPanel({ event, onClose }: { event: BayseEvent; onClose: () => void
         <Link
           href={embedUrl}
           target="_blank"
-          className="flex h-8 w-full items-center justify-center rounded-md border border-[#1e1e1e] bg-transparent font-mono text-xs text-[#555] hover:border-[#2a2a2a] hover:bg-[#111] hover:text-[#f0ede6] uppercase tracking-wider transition-colors"
+          className="flex h-8 w-full items-center justify-center rounded-md border border-[#333] bg-transparent font-mono text-xs text-[#888] hover:border-[#555] hover:bg-[#111] hover:text-[#f0ede6] uppercase tracking-wider transition-colors"
         >
           Open widget page ↗
         </Link>
@@ -237,6 +247,7 @@ export default function DashboardPage() {
   const [search, setSearch] = useState("")
   const [category, setCategory] = useState("All")
   const [selected, setSelected] = useState<BayseEvent | null>(null)
+  const isMobile = useIsMobile()
 
   const fetchEvents = useCallback(async () => {
     setLoading(true)
@@ -269,13 +280,14 @@ export default function DashboardPage() {
       {/* Nav */}
       <nav className="sticky top-0 z-40 border-b border-[#1a1a1a] bg-[#080808]/90 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
-          <Link href="/" className="font-mono text-sm font-semibold tracking-widest text-[#1369F1]">
-            CROWDLINE
+          <Link href="/" className="flex items-center gap-2">
+            <span className="font-mono text-sm font-semibold tracking-widest text-[#f0ede6]">CROWDLINE</span>
+            <span className="rounded border border-[#444] px-1.5 py-0.5 font-mono text-[9px] text-[#888] uppercase tracking-widest">Beta</span>
           </Link>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e] animate-pulse" />
-              <span className="font-mono text-[11px] text-[#444]">{events.length} markets</span>
+              <span className="font-mono text-[11px] text-[#888]">{events.length} markets</span>
             </div>
           </div>
         </div>
@@ -285,7 +297,7 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="mb-1 text-2xl font-bold text-[#f0ede6]">Browse markets</h1>
-          <p className="text-sm text-[#555]">Select any market to get the embed code.</p>
+          <p className="text-sm text-[#888]">Select any market to get the embed code.</p>
         </div>
 
         {/* Filters */}
@@ -316,7 +328,7 @@ export default function DashboardPage() {
                 className={`shrink-0 rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition-all ${
                   category === cat
                     ? "bg-[#1369F1] text-white font-semibold"
-                    : "border border-[#1e1e1e] bg-transparent text-[#555] hover:border-[#2a2a2a] hover:text-[#888]"
+                    : "border border-[#333] bg-transparent text-[#888] hover:border-[#555] hover:text-[#ccc]"
                 }`}
               >
                 {cat}
@@ -344,7 +356,7 @@ export default function DashboardPage() {
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="mb-4 font-mono text-4xl text-[#1e1e1e]">—</div>
-            <p className="text-sm text-[#555]">No markets found.</p>
+            <p className="text-sm text-[#888]">No markets found.</p>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -355,11 +367,15 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* Embed panel */}
+      {/* Embed panel — bottom sheet on mobile, right panel on desktop */}
       <Sheet open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
         <SheetContent
-          side="right"
-          className="w-full border-[#1a1a1a] bg-[#0d0d0d] p-6 sm:max-w-md overflow-y-auto"
+          side={isMobile ? "bottom" : "right"}
+          className={
+            isMobile
+              ? "rounded-t-2xl border-t border-[#1a1a1a] bg-[#0d0d0d] p-6 max-h-[85vh] overflow-y-auto"
+              : "w-full border-[#1a1a1a] bg-[#0d0d0d] p-6 sm:max-w-md overflow-y-auto"
+          }
         >
           {selected && <EmbedPanel event={selected} onClose={() => setSelected(null)} />}
         </SheetContent>
