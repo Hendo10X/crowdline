@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx shadcn@latest add badge card dialog input tabs skeleton separator sheet --yes)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:docs.bayse.markets)",
+      "Bash(curl -s -X GET \"https://relay.bayse.markets/v1/pm/events\" -H \"X-Public-Key: pk_live_gBZsAsI7RiP3WdDik7l39Grm\" -H \"Accept: application/json\")",
+      "Bash(curl -s \"https://relay.bayse.markets/v1/pm/events\" -H \"X-Public-Key: pk_live_gBZsAsI7RiP3WdDik7l39Grm\")",
+      "Bash(node -e \":*)",
+      "Bash(curl -s \"https://relay.bayse.markets/v1/pm/events/5bdb13df-e2a9-4438-aa0b-17baa952cf27\" -H \"X-Public-Key: pk_live_gBZsAsI7RiP3WdDik7l39Grm\")",
+      "Bash(sed -i 's/#e8a020/#1369F1/g; s/#d09018/#0f57d4/g' /c/Users/Hendo/crowdline/components/widget/inline-widget.tsx)",
+      "Bash(sed -i 's/#e8a020/#1369F1/g; s/#d09018/#0f57d4/g' /c/Users/Hendo/crowdline/app/embed/[eventId]/embed-client.tsx)"
+    ]
+  }
+}
